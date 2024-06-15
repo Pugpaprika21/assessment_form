@@ -1,0 +1,19 @@
+templates:
+  login.html:
+    - "pkg/service-name/views/login.html"
+    - "pkg/service-name/views/base.html"
+  register.html:
+    - "pkg/service-name/views/register.html"
+    - "pkg/service-name/views/base.html"
+  user-home.html:
+    - "pkg/service-name/views/user-home.html"
+    - "pkg/service-name/views/base.html"
+  assessment-form.html: 
+    - "pkg/service-name/views/assessment-form.html"
+    - "pkg/service-name/views/base.html"
+  assessment-form-update.html:
+    - "pkg/service-name/views/assessment-form-update.html"
+    - "pkg/service-name/views/base.html"
+  # navbar.html:
+  #   - "pkg/service-name/views/components/navbar.html"
+  #   - "pkg/service-name/views/base.html"

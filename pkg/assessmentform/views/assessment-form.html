@@ -1,0 +1,262 @@
+{{define "title"}}
+แบบประเมินโรคซึมเศร้า | {{ index .title }}
+{{end}}
+
+{{define "style"}}
+<style>
+    .form-main {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-main h4 {
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .form-check-label {
+        margin-left: 10px;
+    }
+</style>
+{{end}}
+
+{{define "body"}}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">แบบประเมินโรคซึมเศร้า</h2>
+    <div class="form-main">
+        <form class="assessment-form">
+            <div class="question-1">
+                <h4>ความเครียดและความวิตกกังวล</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_1" id="question_1_yes" value="1">
+                    <label class="form-check-label" for="question_1_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_1" id="question_1_no" value="2" checked>
+                    <label class="form-check-label" for="question_1_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-2">
+                <h4>ท่านรู้สึกความเครียดอย่างไรในชีวิตประจำวัน?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_2" id="question_2_yes" value="1">
+                    <label class="form-check-label" for="question_2_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_2" id="question_2_no" value="2" checked>
+                    <label class="form-check-label" for="question_2_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-3">
+                <h4>ท่านรู้สึกวิตกกังวลมากน้อยเพียงใดในช่วงสัปดาห์ที่ผ่านมา?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_3" id="question_3_yes" value="1">
+                    <label class="form-check-label" for="question_3_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_3" id="question_3_no" value="2" checked>
+                    <label class="form-check-label" for="question_3_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-4">
+                <h4>ท่านรู้สึกกังวลหรือท้อแท้เกินไปในช่วงเวลาที่ผ่านมา?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_4" id="question_4_yes" value="1">
+                    <label class="form-check-label" for="question_4_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_4" id="question_4_no" value="2" checked>
+                    <label class="form-check-label" for="question_4_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-5">
+                <h4>ท่านรู้สึกเศร้าหรือท้อแท้จริงในช่วงสัปดาห์ที่ผ่านมา?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_5" id="question_5_yes" value="1">
+                    <label class="form-check-label" for="question_5_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_5" id="question_5_no" value="2" checked>
+                    <label class="form-check-label" for="question_5_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-6">
+                <h4>ท่านรู้สึกดีและมีความสุขกับตัวเองในช่วงเวลาที่ผ่านมาหรือไม่?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_6" id="question_6_yes" value="1">
+                    <label class="form-check-label" for="question_6_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_6" id="question_6_no" value="2" checked>
+                    <label class="form-check-label" for="question_6_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-7">
+                <h4>ท่านสามารถนอนหลับอย่างสบายตามปกติได้หรือไม่?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_7" id="question_7_yes" value="1">
+                    <label class="form-check-label" for="question_7_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_7" id="question_7_no" value="2" checked>
+                    <label class="form-check-label" for="question_7_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-8">
+                <h4>ท่านมีความสนใจและความกระตือรือร้นในการรับประทานอาหารมื้อใดมากที่สุดในช่วงสัปดาห์ที่ผ่านมา?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_8" id="question_8_yes" value="1">
+                    <label class="form-check-label" for="question_8_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_8" id="question_8_no" value="2" checked>
+                    <label class="form-check-label" for="question_8_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-9">
+                <h4>ท่านมีความเสียใจหรือความหงุดหงิดมากน้อยเพียงใดในชีวิตประจำวัน?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_9" id="question_9_yes" value="1">
+                    <label class="form-check-label" for="question_9_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_9" id="question_9_no" value="2" checked>
+                    <label class="form-check-label" for="question_9_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-10">
+                <h4>ท่านมีความสุขและมีความสนุกในการทำงานหรือกิจกรรมที่ต้องทำในชีวิตประจำวันมากน้อยเพียงใด?</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_10" id="question_10_yes" value="1">
+                    <label class="form-check-label" for="question_10_yes">
+                        ใช่
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_10" id="question_10_no" value="2"
+                        checked>
+                    <label class="form-check-label" for="question_10_no">
+                        ไม่ใช่
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-3 btn-assessment-form">
+                <span class="spinner-border spinner-border-sm" id="spinner-submit-loading" aria-hidden="true"></span>
+                บันทึกแบบประเมิน
+            </button>
+        </form>
+    </div>
+</div>
+{{end}}
+
+{{define "script"}}
+<script>
+    $(document).ready(function () {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (Object.is(user, null)) {
+            localStorage.clear();
+            $(".btn-assessment-form").attr("disabled", true);
+            Swal.fire({ title: "กรุณาล็อคอิน", text: "", icon: "error" });
+
+            setInterval(() => {
+                window.location.href = "/assessmentform/login";
+            }, 1500);
+            return;
+        }
+
+        $("#spinner-submit-loading").hide();
+        $(".assessment-form").submit(function (e) {
+            e.preventDefault();
+            let data = $(this).serialize();
+
+            Swal.fire({
+                title: "คุณแน่ใจหรือไม่?",
+                text: "คุณจะไม่สามารถย้อนกลับได้!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "ใช่, บันทึกแบบประเมิน!",
+                cancelButtonText: "ยกเลิก"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#spinner-submit-loading").show();
+                    setTimeout(function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/assessmentform/save-data",
+                            data: {
+                                "userId": user.userId,
+                                "assessmentform": data
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.status_bool) {
+                                    Swal.fire({ title: response.message, text: "", icon: "success" });
+                                    $("#spinner-submit-loading").hide();
+                                    setInterval(() => {
+                                        window.location.href = "/assessmentform/user-home";
+                                    }, 1500);
+                                    return;
+                                }
+
+                                Swal.fire({ title: response.message, text: "", icon: "error" });
+                            }
+                        });
+                    }, 1800);
+                }
+            });
+        });
+    });
+</script>
+{{end}}

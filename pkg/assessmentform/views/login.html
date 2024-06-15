@@ -1,0 +1,138 @@
+{{define "title"}}
+แบบประเมินโรคซึมเศร้า | {{ index .title }}
+{{end}}
+
+{{define "style"}}
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 100px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .register-link a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .register-link a:hover {
+        color: #0056b3;
+    }
+</style>
+{{end}}
+
+{{define "body"}}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="login-container">
+                <h2 class="mb-3">เข้าสู่ระบบ</h2>
+                <form class="handler-login">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">อีเมล</label>
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">รหัสผ่าน</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="password" name="password">
+                            <button class="btn btn-outline-secondary eye-icon" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-3"><i
+                            class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;เข้าสู่ระบบ</button>
+                </form>
+                <div class="register-link">
+                    <a href="#!" class="text-decoration-none">ลืมรหัสผ่าน</a>
+                    <a href="/assessmentform/register" class="text-decoration-none">สมัครสมาชิกใหม่</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "script"}}
+<script>
+    function togglePasswordVisibility(inputId, buttonId) {
+        let input = $("#" + inputId);
+        let button = $("#" + buttonId);
+
+        if (input.attr("type") === "password") {
+            input.attr("type", "text");
+            button.html(`<i class="fas fa-eye-slash"></i>`);
+        } else {
+            input.attr("type", "password");
+            button.html(`<i class="fas fa-eye"></i>`);
+        }
+    }
+
+    $(document).ready(function () {
+        localStorage.clear();
+        $("#togglePassword").click(function () {
+            togglePasswordVisibility("password", "togglePassword");
+        });
+        $(".handler-login").submit(function (e) {
+            e.preventDefault();
+            let email = $("#email").val().trim();
+            let password = $("#password").val().trim();
+
+            if (!email) {
+                Swal.fire({ title: "กรอกอีเมล", text: "", icon: "warning" });
+                return;
+            }
+
+            if (!password) {
+                Swal.fire({ title: "กรอกรหัสผ่าน", text: "", icon: "warning" });
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/assessmentform/login-verify",
+                data: { email: email, password: password },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.status_bool) {
+                        localStorage.setItem("user", JSON.stringify({userId: response.data.userId}));
+                        Swal.fire({ title: response.message, text: "", icon: "success" });
+                        setInterval(() => {
+                            window.location.href = "/assessmentform/user-home"
+                        }, 1500);
+                        return
+                    }
+                    Swal.fire({ title: response.message, text: "", icon: "error" });
+                }
+            });
+        });
+    });
+</script>
+{{end}}

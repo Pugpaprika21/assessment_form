@@ -1,0 +1,104 @@
+{{define "title"}}
+แบบประเมินโรคซึมเศร้า | {{ index .title }}
+{{end}}
+
+{{define "style"}}
+<style>
+
+</style>
+{{end}}
+
+{{define "body"}}
+
+<div class="container">
+    <div class="table-main mt-3">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="/assessmentform/form-save" class="btn btn-sm btn-primary"
+                type="button">ฟอร์มแบบประเมินโรคซึมเศร้า</a>
+        </div>
+        <table class="table table-sm table-hover text-center">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">คะแนนเฉลี่ย</th>
+                    <th scope="col">สถานะซึมเศร้า</th>
+                    <th scope="col">จัดการ</th>
+                </tr>
+            </thead>
+            <tbody id="assessments-table-body">
+                <!--  -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{end}}
+
+{{define "script"}}
+<script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    $(document).ready(function () {
+        getAllAssessments();
+    });
+
+    function getAllAssessments() {
+        if (!Object.is(user, null)) {
+            $.ajax({
+                type: "GET",
+                url: "/assessmentform/user/" + user.userId + "/assessments",
+                dataType: "json",
+                success: function (response) {
+                    if (response.status_bool) {
+                        const assessments = response.data;
+                        const tableBody = $('#assessments-table-body');
+                        tableBody.empty();
+
+                        assessments.forEach((assessment, index) => {
+                            const row = `
+                                <tr>
+                                    <th scope="row">${index + 1}</th>
+                                    <td>${assessment.average_score}</td>
+                                    <td>${assessment.depression_status}</td>
+                                    <td> 
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <a href="/assessmentform/assessments/${assessment.assessmentId}" class="btn btn-sm btn-primary me-md-2" type="button">เเก้ไข</a>
+                                            <button class="btn btn-sm btn-danger" type="button" onclick="deleteAssessment(${assessment.assessmentId});">ลบ</button>
+                                        </div>    
+                                    </td>
+                                </tr>
+                            `;
+                            tableBody.append(row);
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function deleteAssessment(assessmentId) {
+        Swal.fire({
+            title: "คุณแน่ใจหรือไม่?",
+            text: "คุณจะไม่สามารถย้อนกลับได้!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ใช่, ลบแบบประเมิน!",
+            cancelButtonText: "ยกเลิก"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/assessmentform/user/" + user.userId + "/assessments/" + assessmentId + "",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status_bool) {
+                            getAllAssessments();
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>
+{{end}}

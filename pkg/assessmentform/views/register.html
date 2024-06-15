@@ -1,0 +1,192 @@
+{{define "title"}}
+แบบประเมินโรคซึมเศร้า | {{ index .title }}
+{{end}}
+
+{{define "style"}}
+<style>
+    .register-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 80px;
+        margin-bottom: 80px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .register-container h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .eye-icon {
+        font-size: 1.2rem;
+    }
+
+    .btn-outline-secondary.eye-icon {
+        font-size: 1rem;
+    }
+</style>
+{{end}}
+
+{{define "body"}}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="register-container">
+                <h2 class="mb-3">สมัครสมาชิก</h2>
+                <form class="hander-register">
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">ชื่อ-สกุล</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">อีเมล</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">เบอร์โทร</label>
+                        <input type="phone" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">รหัสผ่าน</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="password" name="password">
+                            <button class="btn btn-outline-secondary eye-icon" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">ยืนยันรหัสผ่าน</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="confirmPassword" name="confirmPassword">
+                            <button class="btn btn-outline-secondary eye-icon" type="button" id="toggleConfirmPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-register"><i
+                            class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;ลงทะเบียน</button>
+                </form>
+                <div class="text-center mt-3">
+                    มีบัญชีอยู่แล้ว? <a href="/assessmentform/login" class="text-decoration-none">เข้าสู่ระบบ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "script"}}
+<script>
+    function togglePasswordVisibility(inputId, buttonId) {
+        let input = $("#" + inputId);
+        let button = $("#" + buttonId);
+
+        if (input.attr("type") === "password") {
+            input.attr("type", "text");
+            button.html(`<i class="fas fa-eye-slash"></i>`);
+        } else {
+            input.attr("type", "password");
+            button.html(`<i class="fas fa-eye"></i>`);
+        }
+    }
+
+    $(document).ready(function () {
+        $("#togglePassword").click(function () {
+            togglePasswordVisibility("password", "togglePassword");
+        });
+        $("#toggleConfirmPassword").click(function () {
+            togglePasswordVisibility("confirmPassword", "toggleConfirmPassword");
+        });
+
+        var password = "";
+        $("#password").change(function (e) {
+            e.preventDefault();
+            password = $(this).val().trim();
+            return;
+        });
+
+        var confirmPassword = ""
+        $("#confirmPassword").change(function (e) {
+            e.preventDefault();
+            if (password == $(this).val().trim()) {
+                confirmPassword = $(this).val().trim();
+                $(".btn-register").attr("disabled", false);
+                return;
+            }
+            $(this).focus();
+            $(".btn-register").attr("disabled", true);
+            Swal.fire({ title: "ยืนยันรหัสผ่านผิดพลาด", text: "", icon: "warning" });
+        });
+        $(".hander-register").submit(function (e) {
+            e.preventDefault();
+            let fullname = $("#fullname").val().trim();
+            let email = $("#email").val().trim();
+            let phone = $("#phone").val().trim();
+
+            if (!fullname) {
+                $("#fullname").focus();
+                Swal.fire({ title: "กรอกชื่อ-สกุล", text: "", icon: "warning" });
+                return;
+            }
+            if (!email) {
+                $("#email").focus();
+                Swal.fire({ title: "กรอกอีเมล", text: "", icon: "warning" });
+                return;
+            }
+            if (!phone) {
+                $("#phone").focus();
+                Swal.fire({ title: "กรอกเบอร์โทร", text: "", icon: "warning" });
+                return;
+            }
+            if (!password) {
+                $("#password").focus();
+                Swal.fire({ title: "กรอกรหัสผ่าน", text: "", icon: "warning" });
+                return;
+            }
+            if (!confirmPassword) {
+                $("#confirmPassword").focus();
+                Swal.fire({ title: "กรอกยืนยันรหัสผ่าน", text: "", icon: "warning" });
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/assessmentform/register-save",
+                data: {
+                    fullname: fullname,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status_bool) {
+                        Swal.fire({ title: response.message, text: "", icon: "success" });
+                        setInterval(() => {
+                            window.location.href = "/assessmentform/login"
+                        }, 1500);
+                        return
+                    }
+                    Swal.fire({ title: response.message, text: "", icon: "error" });
+                }
+            });
+        });
+    });
+</script>
+
+{{end}}
